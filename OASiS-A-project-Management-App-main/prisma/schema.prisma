@@ -1,0 +1,255 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String           @id @default(cuid())
+  username        String           @unique
+  email           String           @unique
+  passwordHash    String
+  fullName        String?
+  position        String?
+  department      String?
+  isAdmin         Boolean          @default(false)
+  isActive        Boolean          @default(true)
+  createdAt       DateTime         @default(now())
+  lastLogin       DateTime?
+  readMessages    MessageRead[]
+  messages        TeamMessage[]
+  bulletinPosts   BulletinPost[]
+  comments        Comment[]
+  dailyLogs       DailyLog[]
+  dailyReports    DailyReport[]
+  notifications   Notification[]   @relation("UserNotifications")
+  managedProjects Project[]        @relation("ProjectManager")
+  assignedTasks   Task[]          @relation("TaskAssignee")
+  sentInvitations TeamInvitation[] @relation("InvitedByUser")
+  memberTeams     TeamMember[]
+  ownedTeams      Team[]           @relation("TeamOwner")
+  memberProjects  Project[]        @relation("ProjectMembers")
+
+  @@map("users")
+}
+
+model Team {
+  id          String           @id @default(cuid())
+  name        String
+  description String?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  ownerId     String
+  messages    TeamMessage[]
+  projects    Project[]        @relation("TeamProjects")
+  invitations TeamInvitation[]
+  members     TeamMember[]
+  owner       User             @relation("TeamOwner", fields: [ownerId], references: [id])
+
+  @@map("teams")
+}
+
+model TeamMember {
+  id       String   @id @default(cuid())
+  role     String   @default("member")
+  joinedAt DateTime @default(now())
+  teamId   String
+  userId   String
+  team     Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([teamId, userId])
+  @@map("team_members")
+}
+
+model TeamInvitation {
+  id          String   @id @default(cuid())
+  email       String
+  token       String   @unique
+  role        String   @default("member")
+  expiresAt   DateTime
+  createdAt   DateTime @default(now())
+  accepted    Boolean  @default(false)
+  teamId      String
+  invitedById String
+  invitedBy   User     @relation("InvitedByUser", fields: [invitedById], references: [id])
+  team        Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+
+  @@map("team_invitations")
+}
+
+model Project {
+  id          String      @id @default(cuid())
+  name        String
+  description String?
+  status      String      @default("planning")
+  priority    String      @default("medium")
+  progress    Int         @default(0)  // 0-100
+  startDate   DateTime    @default(now())
+  endDate     DateTime?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  manager     User        @relation("ProjectManager", fields: [managerId], references: [id])
+  managerId   String
+  team        Team?       @relation("TeamProjects", fields: [teamId], references: [id])
+  teamId      String?
+  tasks       Task[]
+  members     User[]      @relation("ProjectMembers")
+
+  @@map("projects")
+}
+
+model Task {
+  id          String      @id @default(cuid())
+  title       String
+  description String?
+  status      String      @default("todo")
+  priority    String      @default("medium")
+  progress    Int         @default(0)  // 0-100
+  dueDate     DateTime?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  completedAt DateTime?
+  project     Project     @relation(fields: [projectId], references: [id])
+  projectId   String
+  assignee    User?       @relation("TaskAssignee", fields: [assigneeId], references: [id])
+  assigneeId  String?
+  comments    Comment[]
+
+  @@map("tasks")
+}
+
+model BulletinPost {
+  id         String    @id @default(cuid())
+  title      String
+  content    String
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  pinned     Boolean   @default(false)
+  authorId   String
+  category   String?
+  importance String?
+  author     User      @relation(fields: [authorId], references: [id])
+  comments   Comment[]
+
+  @@map("bulletin_posts")
+}
+
+model Comment {
+  id        String        @id @default(cuid())
+  content   String
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  authorId  String
+  postId    String?
+  taskId    String?
+  author    User          @relation(fields: [authorId], references: [id])
+  post      BulletinPost? @relation(fields: [postId], references: [id], onDelete: Cascade)
+  task      Task?         @relation(fields: [taskId], references: [id], onDelete: Cascade)
+
+  @@map("comments")
+}
+
+model DailyLog {
+  id          String   @id @default(cuid())
+  date        DateTime @default(now())
+  startTime   String
+  endTime     String
+  description String
+  category    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  completed   Boolean  @default(false)
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+
+  @@map("daily_logs")
+}
+
+model TeamMessage {
+  id          String              @id @default(cuid())
+  content     String
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  teamId      String
+  userId      String
+  attachments MessageAttachment[]
+  readBy      MessageRead[]
+  team        Team                @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  user        User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([teamId])
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model MessageAttachment {
+  id        String      @id @default(cuid())
+  messageId String
+  type      String
+  url       String
+  name      String
+  size      Int
+  createdAt DateTime    @default(now())
+  message   TeamMessage @relation(fields: [messageId], references: [id], onDelete: Cascade)
+
+  @@index([messageId])
+}
+
+model MessageRead {
+  userId    String
+  messageId String
+  readAt    DateTime    @default(now())
+  message   TeamMessage @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, messageId])
+  @@index([userId])
+  @@index([messageId])
+}
+
+model DailyReport {
+  id            String   @id @default(cuid())
+  date          DateTime
+  completed     String   // Will be stored as JSON string and parsed in application
+  inProgress    String   // Will be stored as JSON string and parsed in application
+  issues        String   // Will be stored as JSON string and parsed in application
+  tomorrow      String   // Will be stored as JSON string and parsed in application
+  project       String
+  status        String   @default("pending")
+  projectId     String?
+  taskIds       String   // Will be stored as JSON string and parsed in application
+  userFeedback  String?
+  adminFeedback String?
+  adminReviewed Boolean  @default(false)
+  reportIndex   Int?     @default(0)  // Field to track multiple reports per day 
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([date])
+  @@map("daily_reports")
+}
+
+model Notification {
+  id        String    @id @default(cuid())
+  type      String
+  title     String
+  message   String
+  read      Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  readAt    DateTime?
+  linkUrl   String?
+  data      String?   // Will be stored as JSON string and parsed in application
+  userId    String
+  user      User      @relation("UserNotifications", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([createdAt])
+  @@map("notifications")
+}

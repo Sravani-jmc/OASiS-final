@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <!-- Background elements -->
+  <rect x="0" y="0" width="800" height="600" fill="#f8fafc" />
+  
+  <!-- Project board or kanban -->
+  <rect x="150" y="100" width="500" height="350" rx="15" ry="15" fill="#ffffff" stroke="#e2e8f0" stroke-width="2" />
+  <line x1="317" y1="100" x2="317" y2="450" stroke="#e2e8f0" stroke-width="1" />
+  <line x1="483" y1="100" x2="483" y2="450" stroke="#e2e8f0" stroke-width="1" />
+  
+  <!-- Column headers -->
+  <rect x="150" y="100" width="167" height="40" rx="5" ry="5" fill="#f1f5f9" />
+  <rect x="317" y="100" width="166" height="40" rx="5" ry="5" fill="#f1f5f9" />
+  <rect x="483" y="100" width="167" height="40" rx="5" ry="5" fill="#f1f5f9" />
+  <text x="233" y="125" font-family="Arial" font-size="14" fill="#334155" text-anchor="middle">To Do</text>
+  <text x="400" y="125" font-family="Arial" font-size="14" fill="#334155" text-anchor="middle">In Progress</text>
+  <text x="566" y="125" font-family="Arial" font-size="14" fill="#334155" text-anchor="middle">Completed</text>
+  
+  <!-- Task cards -->
+  <!-- To Do column -->
+  <rect x="160" y="150" width="147" height="80" rx="5" ry="5" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+  <rect x="160" y="240" width="147" height="80" rx="5" ry="5" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+  <rect x="160" y="330" width="147" height="80" rx="5" ry="5" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+  <text x="170" y="170" font-family="Arial" font-size="12" fill="#334155">Design Homepage</text>
+  <text x="170" y="260" font-family="Arial" font-size="12" fill="#334155">Setup Database</text>
+  <text x="170" y="350" font-family="Arial" font-size="12" fill="#334155">User Research</text>
+  
+  <!-- In Progress column -->
+  <rect x="327" y="150" width="147" height="80" rx="5" ry="5" fill="#4361ee" />
+  <rect x="327" y="240" width="147" height="80" rx="5" ry="5" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+  <text x="337" y="170" font-family="Arial" font-size="12" fill="#ffffff">API Development</text>
+  <text x="337" y="260" font-family="Arial" font-size="12" fill="#334155">Testing Features</text>
+  
+  <!-- Completed column -->
+  <rect x="493" y="150" width="147" height="80" rx="5" ry="5" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+  <rect x="493" y="240" width="147" height="80" rx="5" ry="5" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+  <text x="503" y="170" font-family="Arial" font-size="12" fill="#334155">Project Setup</text>
+  <text x="503" y="260" font-family="Arial" font-size="12" fill="#334155">Requirements</text>
+  
+  <!-- Checkmark icon in Completed column -->
+  <circle cx="520" cy="190" r="12" fill="#10b981" />
+  <path d="M515,190 L518,193 L525,186" stroke="#ffffff" stroke-width="2" fill="none" />
+  <circle cx="520" cy="280" r="12" fill="#10b981" />
+  <path d="M515,280 L518,283 L525,276" stroke="#ffffff" stroke-width="2" fill="none" />
+  
+  <!-- People -->
+  <!-- Person at laptop -->
+  <g transform="translate(80, 240)">
+    <!-- laptop -->
+    <rect x="0" y="30" width="50" height="35" rx="2" ry="2" fill="#334155" />
+    <rect x="5" y="35" width="40" height="25" rx="1" ry="1" fill="#94a3b8" />
+    <path d="M-5,65 L55,65 L50,70 L0,70 Z" fill="#334155" />
+    
+    <!-- person -->
+    <circle cx="25" cy="15" r="15" fill="#4361ee" />
+    <rect x="15" y="30" width="20" height="25" fill="#4361ee" />
+    <rect x="10" y="25" width="10" height="20" fill="#4361ee" />
+    <rect x="30" y="25" width="10" height="20" fill="#4361ee" />
+  </g>
+  
+  <!-- Person on right -->
+  <g transform="translate(650, 320)">
+    <circle cx="20" cy="15" r="15" fill="#4361ee" />
+    <rect x="10" y="30" width="20" height="30" fill="#4361ee" />
+    <rect x="0" y="30" width="10" height="20" fill="#4361ee" />
+    <rect x="30" y="30" width="10" height="20" fill="#4361ee" />
+  </g>
+  
+  <!-- Person on top -->
+  <g transform="translate(400, 50)">
+    <circle cx="0" cy="0" r="15" fill="#4361ee" />
+    <rect x="-10" y="15" width="20" height="25" fill="#4361ee" />
+    <rect x="-20" y="15" width="10" height="15" fill="#4361ee" />
+    <rect x="10" y="15" width="10" height="15" fill="#4361ee" />
+  </g>
+  
+  <!-- Document icon -->
+  <g transform="translate(550, 80) rotate(15)">
+    <rect x="0" y="0" width="50" height="60" fill="white" stroke="#94a3b8" stroke-width="1" />
+    <line x1="10" y1="15" x2="40" y2="15" stroke="#94a3b8" stroke-width="2" />
+    <line x1="10" y1="25" x2="40" y2="25" stroke="#94a3b8" stroke-width="2" />
+    <line x1="10" y1="35" x2="40" y2="35" stroke="#94a3b8" stroke-width="2" />
+    <line x1="10" y1="45" x2="30" y2="45" stroke="#94a3b8" stroke-width="2" />
+    <path d="M40,0 L50,10 L40,10 Z" fill="#94a3b8" />
+  </g>
+  
+  <!-- Hourglass/timer icon -->
+  <g transform="translate(100, 380)">
+    <path d="M20,0 L40,0 L40,10 C40,20 30,25 30,30 C30,35 40,40 40,50 L40,60 L20,60 L20,50 C20,40 30,35 30,30 C30,25 20,20 20,10 Z" fill="#4361ee" />
+    <rect x="15" y="0" width="30" height="5" fill="#4361ee" />
+    <rect x="15" y="55" width="30" height="5" fill="#4361ee" />
+  </g>
+  
+  <!-- Calendar cards -->
+  <g transform="translate(280, 450) rotate(-10)">
+    <rect x="0" y="0" width="40" height="40" rx="5" ry="5" fill="white" stroke="#94a3b8" stroke-width="1" />
+    <line x1="0" y1="10" x2="40" y2="10" stroke="#94a3b8" stroke-width="1" />
+    <circle cx="10" cy="20" r="3" fill="#4361ee" />
+    <circle cx="20" cy="20" r="3" fill="#94a3b8" />
+    <circle cx="30" cy="20" r="3" fill="#94a3b8" />
+    <circle cx="10" cy="30" r="3" fill="#94a3b8" />
+    <circle cx="20" cy="30" r="3" fill="#4361ee" />
+    <circle cx="30" cy="30" r="3" fill="#94a3b8" />
+  </g>
+  
+  <g transform="translate(450, 470) rotate(5)">
+    <rect x="0" y="0" width="40" height="40" rx="5" ry="5" fill="white" stroke="#94a3b8" stroke-width="1" />
+    <line x1="0" y1="10" x2="40" y2="10" stroke="#94a3b8" stroke-width="1" />
+    <circle cx="10" cy="20" r="3" fill="#94a3b8" />
+    <circle cx="20" cy="20" r="3" fill="#94a3b8" />
+    <circle cx="30" cy="20" r="3" fill="#4361ee" />
+    <circle cx="10" cy="30" r="3" fill="#94a3b8" />
+    <circle cx="20" cy="30" r="3" fill="#94a3b8" />
+    <circle cx="30" cy="30" r="3" fill="#94a3b8" />
+  </g>
+</svg> 
